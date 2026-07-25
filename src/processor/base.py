@@ -5,7 +5,7 @@ from typing import Any, Dict
 from src.utils.lock_manager import FileLockManager
 
 class FileProcessor(ABC):
-    def __int__(self,file_path:Path):
+    def __init__(self,file_path:Path):
         self.file_path = file_path
         self.file_name = file_path.name
         self.file_size_kb = file_path.stat().st_size/1024
