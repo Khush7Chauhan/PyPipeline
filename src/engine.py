@@ -10,7 +10,6 @@ from src.utils.logger import logger
 from src.utils.decorator import retry
 
 def get_processor(file_path: Path):
-    """Factory function to instantiate the correct processor."""
     ext = file_path.suffix.lower()
     if ext == '.csv':
         return CSVProcessor(file_path)
@@ -34,9 +33,7 @@ def run_multiprocessing_engine(file_generator, processed_dir: Path) -> list[Dict
     cores = multiprocessing.cpu_count()
     logger.info(f"Starting multiprocessing engine with {cores} cores.")
 
-    # ProcessPoolExecutor distributes tasks to CPU cores
     with ProcessPoolExecutor(max_workers=cores) as executor:
-        # Submit tasks to the pool
         futures = {executor.submit(process_single_file, file, processed_dir): file for file in file_generator}
         
         for future in futures:

@@ -31,26 +31,17 @@ def generate_summary_report(results: list[dict]):
 if __name__ == "__main__":
     logger.info("=== STARTING SMART PIPELINE ===")
     
-    # Ensure directories exist
     for d in [RAW_DIR, PROCESSED_DIR, REPORTS_DIR]:
         d.mkdir(parents=True, exist_ok=True)
-
-    # 1. Fetch Phase (Asyncio)
-    # (Replace with real URLs if you want to test downloading)
     sample_urls = [
         "https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv",
         "https://jsonplaceholder.typicode.com/todos"
     ]
     asyncio.run(fetch_all_remote_data(sample_urls, RAW_DIR))
-    
-    # 2. Scan Phase (Generators)
+
     extensions_to_process = ('.csv', '.json', '.txt')
     file_generator = generate_target_files(RAW_DIR, extensions_to_process)
-    
-    # 3. Process Phase (Multiprocessing & OOP)
     results = run_multiprocessing_engine(file_generator, PROCESSED_DIR)
-    
-    # 4. Reporting Phase
     generate_summary_report(results)
     
     logger.info("=== PIPELINE COMPLETED ===")
